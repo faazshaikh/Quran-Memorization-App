@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 8080;
+const PORT = 3001;
 const JWT_SECRET = 'mySecretKey123456789012345678901234567890';
 
 // Middleware
