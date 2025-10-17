@@ -59,29 +59,10 @@ src/
 - **Accessibility**: Built with accessibility best practices
 - **Performance**: Optimized for fast loading and smooth interactions
 
-## Available Scripts
-
-- `npm start` - Runs the app in development mode
-- `npm build` - Builds the app for production
-- `npm test` - Launches the test runner
-- `npm eject` - Ejects from Create React App (one-way operation)
-
 ## Technologies Used
 
 - React 18
 - CSS3 with modern features
 - Inter font family for typography
 - Responsive design principles
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
+  
