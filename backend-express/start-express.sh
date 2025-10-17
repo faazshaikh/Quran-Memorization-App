@@ -16,3 +16,4 @@ echo "Press Ctrl+C to stop the backend"
 echo ""
 
 npm start
+

@@ -1,0 +1,187 @@
+/* Modern white background with green accents */
+
+/* Enhanced card styling */
+.card {
+  border: 2px solid #10b981 !important;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15) !important;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Enhanced form controls with green borders */
+.form-control {
+  border: 2px solid #10b981 !important;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+}
+
+.form-control:focus {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 0.3rem rgba(16, 185, 129, 0.25) !important;
+  background-color: white;
+  transform: translateY(-1px);
+}
+
+/* Enhanced button styling */
+.btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: none !important;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+}
+
+.btn-success:active {
+  transform: translateY(0);
+}
+
+/* Modern background styling */
+.min-vh-100 {
+  background: linear-gradient(135deg, #f8fffe 0%, #ffffff 100%);
+  position: relative;
+}
+
+.min-vh-100::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Custom gradient backgrounds */
+.bg-gradient-green {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* Custom spacing utilities */
+.py-6 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Enhanced shadow utilities */
+.shadow-custom {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom border radius */
+.rounded-custom {
+  border-radius: 16px;
+}
+
+/* Animation utilities */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom text colors */
+.text-green {
+  color: #10b981 !important;
+}
+
+/* Enhanced form styling */
+.form-control-lg {
+  border-radius: 12px;
+  border: 2px solid #10b981 !important;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  padding: 16px;
+}
+
+.form-control-lg:focus {
+  background-color: white;
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 0.3rem rgba(16, 185, 129, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+/* Modern label styling */
+.form-label {
+  color: #374151;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* Custom alert styling */
+.alert-custom {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced button styling */
+.btn-custom {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-custom:hover {
+  transform: translateY(-1px);
+}
+
+/* Custom card styling */
+.card-custom {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card-custom:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2.5rem;
+  }
+  
+  .display-5 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}

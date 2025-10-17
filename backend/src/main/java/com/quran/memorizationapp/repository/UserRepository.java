@@ -15,3 +15,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     Optional<User> findByEmailAndIsActive(String email, Boolean isActive);
 }
+

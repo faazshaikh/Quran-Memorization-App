@@ -169,3 +169,4 @@ curl -X POST http://localhost:8080/api/auth/login \
 - Check the terminal output for error messages
 - Look at browser console for detailed error information
 - Verify all dependencies are installed correctly
+

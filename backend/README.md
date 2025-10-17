@@ -155,3 +155,4 @@ mvn clean package
 ### Logs
 - Application logs: Console output
 - Debug logs: Set logging level in application.yml
+

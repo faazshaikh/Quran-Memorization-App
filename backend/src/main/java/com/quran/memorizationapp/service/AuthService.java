@@ -78,3 +78,4 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
+
