@@ -4,18 +4,13 @@ A modern, interactive React application for Quran memorization with a beautiful 
 
 ## Features
 
-- 🔐 **Secure Sign-In**: Modern authentication interface
-- 📚 **Memorization Tools**: Interactive learning features
-- 📊 **Progress Tracking**: Monitor your memorization journey
-- 🔄 **Review System**: Maintain retention of memorized verses
-- 📈 **Statistics**: Detailed analytics of your progress
+- **Secure Sign-In**: Modern authentication interface
+- **Memorization Tools**: Interactive learning features
+- **Progress Tracking**: Monitor your memorization journey
+- **Review System**: Maintain retention of memorized verses
+- **Statistics**: Detailed analytics of your progress
 
 ## Getting Started
-
-### Prerequisites
-
-- Node.js (version 14 or higher)
-- npm or yarn
 
 ### Installation
 
