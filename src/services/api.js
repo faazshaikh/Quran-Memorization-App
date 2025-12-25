@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 class ApiService {
   async login(email, password) {
@@ -130,6 +130,60 @@ class ApiService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  async getProgress() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/progress`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch progress');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching progress:', error);
+      throw error;
+    }
+  }
+
+  async saveProgress(progressData) {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
+      }
+
+      const response = await fetch(`${API_BASE_URL}/progress`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(progressData),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to save progress');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error saving progress:', error);
+      throw error;
+    }
   }
 }
 

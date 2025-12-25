@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3001;
+const PORT = 8080;
 const JWT_SECRET = 'mySecretKey123456789012345678901234567890';
 
 // Middleware
@@ -26,7 +26,7 @@ const path = require('path');
 const dbPath = path.join(__dirname, 'quran_memorization.db');
 const database = new sqlite3.Database(dbPath);
 
-// Create users table
+// Create database tables
 database.serialize(() => {
   database.run(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,6 +37,33 @@ database.serialize(() => {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT 1
+  )`);
+  
+  database.run(`CREATE TABLE IF NOT EXISTS user_progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    total_verses INTEGER DEFAULT 0,
+    memorized_verses INTEGER DEFAULT 0,
+    streak INTEGER DEFAULT 0,
+    total_time INTEGER DEFAULT 0,
+    last_study_date TEXT,
+    daily_goal INTEGER DEFAULT 3,
+    weekly_goal INTEGER DEFAULT 15,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(user_id)
+  )`);
+  
+  database.run(`CREATE TABLE IF NOT EXISTS surah_progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    surah_id INTEGER NOT NULL,
+    completed BOOLEAN DEFAULT 0,
+    completed_date TEXT,
+    lines_memorized INTEGER DEFAULT 0,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE(user_id, surah_id)
   )`);
 });
 
@@ -173,6 +200,186 @@ app.get('/api/auth/validate', (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+// Middleware to verify JWT token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+  
+  const token = authHeader.substring(7);
+  
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userEmail = decoded.email;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid token' });
+  }
+};
+
+// Helper function to get user ID from email
+const getUserIdFromEmail = (email, callback) => {
+  database.get('SELECT id FROM users WHERE email = ?', [email], (err, row) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, row ? row.id : null);
+    }
+  });
+};
+
+// Get user progress
+app.get('/api/progress', authenticateToken, (req, res) => {
+  getUserIdFromEmail(req.userEmail, (err, userId) => {
+    if (err || !userId) {
+      return res.status(500).json({ error: 'User not found' });
+    }
+    
+    // Get main progress
+    database.get('SELECT * FROM user_progress WHERE user_id = ?', [userId], (err, progress) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database error' });
+      }
+      
+      // Get surah progress
+      database.all('SELECT * FROM surah_progress WHERE user_id = ?', [userId], (err, surahProgress) => {
+        if (err) {
+          return res.status(500).json({ error: 'Database error' });
+        }
+        
+        // Transform surah progress to object format
+        const surahProgressObj = {};
+        surahProgress.forEach(sp => {
+          surahProgressObj[sp.surah_id] = {
+            completed: sp.completed === 1,
+            completedDate: sp.completed_date,
+            linesMemorized: sp.lines_memorized
+          };
+        });
+        
+        const response = {
+          totalVerses: progress?.total_verses || 0,
+          memorizedVerses: progress?.memorized_verses || 0,
+          streak: progress?.streak || 0,
+          totalTime: progress?.total_time || 0,
+          lastStudyDate: progress?.last_study_date || null,
+          dailyGoal: progress?.daily_goal || 3,
+          weeklyGoal: progress?.weekly_goal || 15,
+          surahProgress: surahProgressObj,
+          surahGoals: progress?.surah_goals ? JSON.parse(progress.surah_goals) : {}
+        };
+        
+        res.json(response);
+      });
+    });
+  });
+});
+
+// Save user progress
+app.post('/api/progress', authenticateToken, (req, res) => {
+  getUserIdFromEmail(req.userEmail, (err, userId) => {
+    if (err || !userId) {
+      return res.status(500).json({ error: 'User not found' });
+    }
+    
+    const {
+      totalVerses,
+      memorizedVerses,
+      streak,
+      totalTime,
+      lastStudyDate,
+      dailyGoal,
+      weeklyGoal,
+      surahProgress,
+      surahGoals
+    } = req.body;
+    
+    // Check if progress exists, then update or insert
+    database.get('SELECT id FROM user_progress WHERE user_id = ?', [userId], (err, existing) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database error' });
+      }
+      
+      const surahGoalsJson = surahGoals ? JSON.stringify(surahGoals) : null;
+      
+      const sql = existing 
+        ? `UPDATE user_progress SET 
+             total_verses = ?, memorized_verses = ?, streak = ?, total_time = ?, 
+             last_study_date = ?, daily_goal = ?, weekly_goal = ?, surah_goals = ?, updated_at = CURRENT_TIMESTAMP
+           WHERE user_id = ?`
+        : `INSERT INTO user_progress (user_id, total_verses, memorized_verses, streak, total_time, last_study_date, daily_goal, weekly_goal, surah_goals)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      
+      const params = existing
+        ? [totalVerses || 0, memorizedVerses || 0, streak || 0, totalTime || 0, lastStudyDate || null, dailyGoal || 3, weeklyGoal || 15, surahGoalsJson, userId]
+        : [userId, totalVerses || 0, memorizedVerses || 0, streak || 0, totalTime || 0, lastStudyDate || null, dailyGoal || 3, weeklyGoal || 15, surahGoalsJson];
+      
+      database.run(sql, params, (err) => {
+        if (err) {
+          return res.status(500).json({ error: 'Failed to save progress' });
+        }
+        
+        // Update surah progress if provided
+        if (surahProgress && typeof surahProgress === 'object') {
+          const surahIds = Object.keys(surahProgress);
+          let completed = 0;
+          let errors = [];
+          
+          if (surahIds.length === 0) {
+            return res.json({ message: 'Progress saved successfully' });
+          }
+          
+          surahIds.forEach((surahId) => {
+            const sp = surahProgress[surahId];
+            const surahIdInt = parseInt(surahId);
+            
+            // Check if surah progress exists
+            database.get('SELECT id FROM surah_progress WHERE user_id = ? AND surah_id = ?', [userId, surahIdInt], (err, existing) => {
+              if (err) {
+                errors.push(err);
+                completed++;
+                if (completed === surahIds.length) {
+                  if (errors.length > 0) {
+                    console.error('Some surah progress updates failed:', errors);
+                  }
+                  return res.json({ message: 'Progress saved successfully' });
+                }
+                return;
+              }
+              
+              const sql = existing
+                ? `UPDATE surah_progress SET 
+                     completed = ?, completed_date = ?, lines_memorized = ?, updated_at = CURRENT_TIMESTAMP
+                   WHERE user_id = ? AND surah_id = ?`
+                : `INSERT INTO surah_progress (user_id, surah_id, completed, completed_date, lines_memorized)
+                   VALUES (?, ?, ?, ?, ?)`;
+              
+              const params = existing
+                ? [sp.completed ? 1 : 0, sp.completedDate || null, sp.linesMemorized || 0, userId, surahIdInt]
+                : [userId, surahIdInt, sp.completed ? 1 : 0, sp.completedDate || null, sp.linesMemorized || 0];
+              
+              database.run(sql, params, (err) => {
+                if (err) errors.push(err);
+                completed++;
+                if (completed === surahIds.length) {
+                  if (errors.length > 0) {
+                    console.error('Some surah progress updates failed:', errors);
+                  }
+                  return res.json({ message: 'Progress saved successfully' });
+                }
+              });
+            });
+          });
+        } else {
+          return res.json({ message: 'Progress saved successfully' });
+        }
+      });
+    });
+  });
 });
 
 // Start server

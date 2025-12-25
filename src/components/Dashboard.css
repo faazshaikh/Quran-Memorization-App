@@ -12,13 +12,13 @@
 
 /* Modern Header */
 .modern-header {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
-  padding: 16px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 24px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
 }
 
 .header-content {
@@ -32,30 +32,56 @@
 .header-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
-.header-icon {
-  font-size: 28px;
-  font-weight: 700;
-  color: #10b981;
-  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3));
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.header-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .header-text {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1f2937;
-  letter-spacing: -0.025em;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.header-subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-top: -1px;
 }
 
 .header-user {
   display: flex;
   align-items: center;
+  background: #f3f4f6;
+  padding: 6px 14px;
+  border-radius: 8px;
 }
 
 .user-name {
-  color: #6b7280;
+  color: #374151;
   font-weight: 500;
   font-size: 14px;
 }
@@ -530,23 +556,57 @@
 }
 
 .answer-feedback {
-  padding: 12px;
+  padding: 16px 20px;
   border-radius: 8px;
   font-weight: 500;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .answer-feedback.correct {
   background: #d1fae5;
   color: #065f46;
-  border: 1px solid #a7f3d0;
+  border: 2px solid #10b981;
 }
 
 .answer-feedback.incorrect {
-  background: #fef3c7;
-  color: #92400e;
-  border: 1px solid #fde68a;
+  background: #fee2e2;
+  color: #991b1b;
+  border: 2px solid #ef4444;
+}
+
+.feedback-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.feedback-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.feedback-text {
+  font-size: 16px;
+}
+
+.btn-success {
+  background: #10b981 !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .ready-note {
@@ -558,6 +618,149 @@
   background: #f0fdf4;
   padding: 8px 12px;
   border-radius: 6px;
+}
+
+/* Voice Recognition Styles */
+.voice-recognition-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.microphone-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 32px;
+  border-radius: 8px;
+  border: none;
+  background: #10b981;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.microphone-button:hover:not(:disabled) {
+  background: #059669;
+}
+
+.microphone-button:active:not(:disabled) {
+  background: #047857;
+}
+
+.microphone-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.microphone-button.recording {
+  background: #ef4444;
+}
+
+.microphone-button.recording:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.microphone-button.success-state {
+  background: #10b981;
+}
+
+.microphone-button.error-state {
+  background: #ef4444;
+}
+
+.microphone-icon {
+  font-size: 24px;
+  filter: brightness(0) invert(1);
+}
+
+.microphone-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.recording-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #fee2e2;
+  border-radius: 8px;
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.recording-dot {
+  width: 12px;
+  height: 12px;
+  background: #ef4444;
+  border-radius: 50%;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.recognized-text {
+  padding: 12px 20px;
+  background: #eff6ff;
+  border-radius: 8px;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+  text-align: center;
+  max-width: 100%;
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expected-text {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #bfdbfe;
+  font-size: 14px;
+  color: #1e3a8a;
+}
+
+.manual-correction {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.recognition-error {
+  padding: 12px 20px;
+  background: #fee2e2;
+  border-radius: 8px;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  text-align: center;
+}
+
+.recognition-warning {
+  padding: 12px 20px;
+  background: #fef3c7;
+  border-radius: 8px;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  text-align: center;
 }
 
 .no-verse-content {
@@ -629,6 +832,184 @@
   background: linear-gradient(90deg, #10b981, #059669);
   border-radius: 4px;
   transition: width 0.3s ease;
+}
+
+.goal-settings {
+  margin-top: 32px;
+}
+
+.goal-settings-card {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+.goal-setting-item {
+  margin-bottom: 24px;
+}
+
+.goal-setting-item:last-child {
+  margin-bottom: 0;
+}
+
+.goal-setting-label {
+  display: block;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.goal-setting-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.goal-setting-input:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.goal-setting-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.goal-setting-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.surah-goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.surah-goal-item {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.surah-goal-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.surah-goal-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 16px;
+}
+
+.surah-goal-progress-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.surah-goal-progress-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.surah-goal-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.surah-goal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.surah-goal-progress-percent {
+  font-size: 14px;
+  font-weight: 600;
+  color: #10b981;
+  min-width: 45px;
+  text-align: right;
+}
+
+.btn-remove-goal {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.btn-remove-goal:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.surah-search-goals {
+  margin-bottom: 20px;
+}
+
+.surahs-goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.surah-goal-select-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.surah-goal-select-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+}
+
+.surah-goal-select-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.surah-goal-select-info {
+  font-size: 12px;
+  color: #6b7280;
 }
 
 /* Analytics Section */
@@ -719,6 +1100,36 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
+}
+
+.status-in-progress {
+  color: #f59e0b;
+  background: #fffbeb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.in-progress-indicator {
+  color: #f59e0b !important;
+  font-weight: 500;
+}
+
+.no-progress-message {
+  text-align: center;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  margin-top: 24px;
+}
+
+.no-progress-message p {
+  color: #6b7280;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
 /* Progress Actions */
@@ -1155,7 +1566,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 20%;
+  width: calc(100% / 6);
   height: 3px;
   background: linear-gradient(90deg, #10b981, #059669);
   border-radius: 0 0 2px 2px;
