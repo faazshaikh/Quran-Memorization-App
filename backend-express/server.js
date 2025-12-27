@@ -6,7 +6,7 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 8080;
+const PORT = 3001;
 const JWT_SECRET = 'mySecretKey123456789012345678901234567890';
 
 // Middleware
@@ -384,19 +384,19 @@ app.post('/api/progress', authenticateToken, (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Express server running on http://localhost:${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/auth/health`);
-  console.log(`🗄️ Database: SQLite (quran_memorization.db)`);
+  console.log(`Express server running on http://localhost:${PORT}`);
+  console.log(`Health check: http://localhost:${PORT}/api/auth/health`);
+  console.log(`Database: SQLite (quran_memorization.db)`);
 });
 
 // Graceful shutdown
 process.on('SIGINT', () => {
-  console.log('\n🛑 Shutting down server...');
+  console.log('\nShutting down server...');
   database.close((err) => {
     if (err) {
       console.error('Error closing database:', err);
     } else {
-      console.log('✅ Database connection closed');
+      console.log('Database connection closed');
     }
     process.exit(0);
   });

@@ -14,14 +14,14 @@ const BackendStatus = () => {
       const isConnected = await apiService.testConnection();
       if (isConnected) {
         setStatus('connected');
-        setMessage('✅ Backend is running and accessible');
+        setMessage('Backend is running and accessible');
       } else {
         setStatus('disconnected');
-        setMessage('❌ Cannot connect to backend. Please start the Spring Boot server.');
+        setMessage('Cannot connect to backend. Please start the Express server.');
       }
     } catch (error) {
       setStatus('error');
-      setMessage(`❌ Error: ${error.message}`);
+      setMessage(`Error: ${error.message}`);
     }
   };
 
@@ -36,16 +36,16 @@ const BackendStatus = () => {
 
   return (
     <div className="alert alert-info" role="alert">
-      <h6 className="alert-heading">🔧 Backend Status</h6>
+      <h6 className="alert-heading">Backend Status</h6>
       <p className={`mb-2 ${getStatusColor()}`}>
-        {status === 'checking' ? '🔄 Checking connection...' : message}
+        {status === 'checking' ? 'Checking connection...' : message}
       </p>
       {status !== 'connected' && (
         <div className="mt-2">
           <small className="text-muted">
             <strong>To fix this:</strong><br/>
-            1. Open terminal and run: <code>cd backend && mvn spring-boot:run</code><br/>
-            2. Wait for "Started QuranMemorizationAppApplication" message<br/>
+            1. Open terminal and run: <code>cd backend-express && npm start</code><br/>
+            2. Wait for "Express server running on http://localhost:3001" message<br/>
             3. Refresh this page
           </small>
         </div>

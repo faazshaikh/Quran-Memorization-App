@@ -187,7 +187,7 @@ const Dashboard = ({ user, onSignOut }) => {
           console.log('Length Ratio:', (lengthRatio * 100).toFixed(1) + '%');
           console.log('Has Arabic:', hasArabicChars);
           console.log('Exact Match:', exactMatch);
-          console.log('Result: ', isCorrectAnswer ? '✓ CORRECT' : '✗ INCORRECT');
+          console.log('Result: ', isCorrectAnswer ? 'CORRECT' : 'INCORRECT');
           console.log('==============================');
           
           setIsCorrect(isCorrectAnswer);
@@ -592,25 +592,25 @@ const Dashboard = ({ user, onSignOut }) => {
               <div className="row g-3">
                 <div className="col-6">
                   <div className="action-card" onClick={startLearningSession}>
-                    <div className="action-icon">📖</div>
+                    <div className="action-icon action-icon-start"></div>
                     <div className="action-text">Start Learning</div>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="action-card" onClick={() => setActiveTab('review')}>
-                    <div className="action-icon">🔄</div>
+                    <div className="action-icon action-icon-review">R</div>
                     <div className="action-text">Review</div>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="action-card" onClick={() => setActiveTab('progress')}>
-                    <div className="action-icon">📊</div>
+                    <div className="action-icon action-icon-progress">P</div>
                     <div className="action-text">Progress</div>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="action-card" onClick={() => setActiveTab('profile')}>
-                    <div className="action-icon">👤</div>
+                    <div className="action-icon action-icon-profile"></div>
                     <div className="action-text">Profile</div>
                   </div>
                 </div>

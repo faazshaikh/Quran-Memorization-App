@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 
 class ApiService {
   async login(email, password) {
@@ -183,6 +183,20 @@ class ApiService {
     } catch (error) {
       console.error('Error saving progress:', error);
       throw error;
+    }
+  }
+
+  async testConnection() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/health`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.ok;
+    } catch (error) {
+      return false;
     }
   }
 }

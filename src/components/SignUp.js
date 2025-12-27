@@ -95,7 +95,7 @@ const SignUp = ({ onSignUp, onSwitchToSignIn }) => {
     setIsLoading(true);
 
     try {
-      // Call Spring Boot API
+      // Call Express API
       const response = await apiService.register(
         formData.firstName,
         formData.lastName,
@@ -127,7 +127,25 @@ const SignUp = ({ onSignUp, onSwitchToSignIn }) => {
               <div className="card-body p-4">
                 <div className="text-center mb-4">
                   <div className="mb-3">
-                    <span className="display-4">📖</span>
+                    <div style={{
+                      width: '56px',
+                      height: '56px',
+                      margin: '0 auto',
+                      borderRadius: '10px',
+                      background: '#10b981',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <div style={{
+                        width: 0,
+                        height: 0,
+                        borderLeft: '14px solid white',
+                        borderTop: '10px solid transparent',
+                        borderBottom: '10px solid transparent',
+                        marginLeft: '4px'
+                      }}></div>
+                    </div>
                   </div>
                   <h2 className="fw-bold text-dark mb-2">Create Account</h2>
                   <p className="text-muted">Join the Quran Memorization community</p>

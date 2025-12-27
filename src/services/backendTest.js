@@ -1,7 +1,7 @@
 // Simple backend connectivity test
 export const testBackendConnection = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/auth/validate', {
+    const response = await fetch('http://localhost:3001/api/auth/validate', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const testBackendConnection = async () => {
 export const checkBackendHealth = async () => {
   try {
     // Try to reach the backend
-    const response = await fetch('http://localhost:8080/api/auth/validate', {
+    const response = await fetch('http://localhost:3001/api/auth/validate', {
       method: 'GET',
       mode: 'no-cors', // This will always succeed but won't give us the response
     });
